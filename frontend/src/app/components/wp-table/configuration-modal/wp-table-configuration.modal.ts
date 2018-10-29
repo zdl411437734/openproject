@@ -1,12 +1,16 @@
 import {
-  ApplicationRef, ChangeDetectorRef,
+  ApplicationRef,
+  ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
-  ElementRef, EventEmitter,
+  ElementRef,
+  EventEmitter,
   Inject,
+  InjectionToken,
   Injector,
   OnDestroy,
   OnInit,
+  Optional,
   ViewChild
 } from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
@@ -16,7 +20,8 @@ import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {
   ActiveTabInterface,
-  TabComponent, TabInterface,
+  TabComponent,
+  TabInterface,
   TabPortalOutlet
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
@@ -27,9 +32,16 @@ import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
+import {ComponentType} from "@angular/cdk/portal";
+import {TestComponent} from "core-components/wp-table/configuration-modal/test-component";
+
+export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
 @Component({
-  templateUrl: './wp-table-configuration.modal.html'
+  templateUrl: './wp-table-configuration.modal.html',
+  providers: [
+    { provide: WpTableConfigurationModalPrependToken, useValue: TestComponent }
+  ]
 })
 export class WpTableConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy  {
 
@@ -65,6 +77,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   public tabPortalHost:TabPortalOutlet;
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+              @Optional() @Inject(WpTableConfigurationModalPrependToken) public prependModalComponent:ComponentType<any>|null,
               readonly I18n:I18nService,
               readonly wpTableConfigurationService:WpTableConfigurationService,
               readonly injector:Injector,
