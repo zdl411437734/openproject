@@ -22,6 +22,8 @@ import {
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {WorkPackageTableHighlight} from "core-components/wp-fast-table/wp-table-highlight";
+import {QueryColumn} from "core-components/wp-query/query-column";
+import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 
 @Injectable()
 export class TableState extends StatesGroup {
@@ -42,10 +44,10 @@ export class TableState extends StatesGroup {
   // all groups returned as results
   groups = input<GroupObject[]>();
   // Set of columns in strict order of appearance
-  columns = input<WorkPackageTableColumns>();
+  columns = input<QueryColumn[]>();
 
   // Set of filters
-  filters = input<WorkPackageTableFilters>();
+  filters = input<QueryFilterInstanceResource[]>();
   // Active and available sort by
   sortBy = input<WorkPackageTableSortBy>();
   // Active and available group by

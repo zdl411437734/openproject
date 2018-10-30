@@ -13,6 +13,7 @@ import {QueryColumn} from './wp-query/query-column';
 import {WikiPageResource} from 'core-app/modules/hal/resources/wiki-page-resource';
 import {PostResource} from 'core-app/modules/hal/resources/post-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {QueryFilterInstanceSchemaResource} from "core-app/modules/hal/resources/query-filter-instance-schema-resource";
 
 export class States extends StatesGroup {
   [key:string]:any;
@@ -79,6 +80,6 @@ export class QueryAvailableDataStates {
   // Available GroupBy columns
   groupBy = input<QueryGroupByResource[]>();
 
-  // Filters remain special, since they require their schema to be loaded
-  // Thus the table state is not initialized until all values are available.
+  // Available filters (derived from their schema)
+  filters = input<QueryFilterInstanceSchemaResource[]>();
 }

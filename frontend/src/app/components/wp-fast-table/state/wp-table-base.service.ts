@@ -27,7 +27,7 @@
 // ++
 
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {InputState, State} from 'reactivestates';
+import {InputState} from 'reactivestates';
 import {mapTo, take, takeUntil} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
@@ -36,7 +36,7 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 
 export abstract class WorkPackageTableBaseService<T> {
 
-  constructor(readonly tableState:TableState) {
+  constructor(protected readonly tableState:TableState) {
   }
 
   /**
@@ -84,21 +84,38 @@ export abstract class WorkPackageTableBaseService<T> {
       )
       .toPromise();
   }
+
+  /**
+   * Helper to set the value of the current state
+   * @param val
+   */
+  protected set current(val:T|undefined) {
+    if (val) {
+      this.state.putValue(val);
+    } else {
+      this.state.clear();
+    }
+  }
+
+  /**
+   * Get the value of the current state, if any.
+   */
+  protected get current():T|undefined {
+    return this.state.value;
+  }
 }
 
-export interface WorkPackageQueryStateService {
+export abstract class WorkPackageQueryStateService<T> extends WorkPackageTableBaseService<T> {
   /**
    * Check whether the state value does not match the query resource's value.
    * @param query The current query resource
    */
-  hasChanged(query:QueryResource):boolean;
+  abstract hasChanged(query:QueryResource):boolean;
 
   /**
    * Apply the current state value to query
    *
    * @return Whether the query should be visibly updated.
    */
-  applyToQuery(query:QueryResource):boolean;
-
-  state:State<any>;
+  abstract applyToQuery(query:QueryResource):boolean;
 }

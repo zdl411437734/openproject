@@ -29,41 +29,22 @@
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
-import {WorkPackageTableBaseState} from './wp-table-base';
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
-export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilterInstanceResource[]> {
-
-  public current:QueryFilterInstanceResource[] = [];
+export class WorkPackageTableFilters {
+  public filters:QueryFilterInstanceResource[] = [];
 
   constructor(filters:QueryFilterInstanceResource[], public availableSchemas:QueryFilterInstanceSchemaResource[]) {
-    super();
-    this.current = filters;
+    this.filters = filters;
   }
 
   public $copy() {
-    let filters = cloneHalResourceCollection<QueryFilterInstanceResource>(this.current);
+    let filters = cloneHalResourceCollection<QueryFilterInstanceResource>(this.filters);
     let availableSchemas = cloneHalResourceCollection<QueryFilterInstanceSchemaResource>(this.availableSchemas);
 
     return new WorkPackageTableFilters(filters, availableSchemas);
   }
 
-  public add(filter:QueryFilterResource) {
-    let schema = _.find(this.availableSchemas,
-                        schema => (schema.filter.allowedValues as QueryFilterResource[])[0].href === filter.href)!;
-
-    let newFilter = schema.getFilter();
-
-    this.current.push(newFilter);
-
-    return newFilter;
-  }
-
-  public remove(filter:QueryFilterInstanceResource) {
-    let index = this.current.indexOf(filter);
-
-    this.current.splice(index, 1);
-  }
 
   public get remainingFilters() {
     var activeFilterHrefs = this.currentFilters.map(filter => filter.href);

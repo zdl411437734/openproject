@@ -26,9 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
+import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageTableColumns} from '../wp-table-columns';
 import {QueryColumn, queryColumnTypes} from '../../wp-query/query-column';
 import {InputState} from 'reactivestates';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
@@ -37,18 +36,18 @@ import {Injectable} from '@angular/core';
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 @Injectable()
-export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<WorkPackageTableColumns> implements WorkPackageQueryStateService {
+export class WorkPackageTableColumnsService extends WorkPackageQueryStateService<QueryColumn[]> {
 
   public constructor(readonly states:States, readonly tableState:TableState) {
     super(tableState);
   }
 
-  public get state():InputState<WorkPackageTableColumns> {
+  public get state():InputState<QueryColumn[]> {
     return this.tableState.columns;
   }
 
-  public valueFromQuery(query:QueryResource):WorkPackageTableColumns {
-    return new WorkPackageTableColumns(query);
+  public valueFromQuery(query:QueryResource):QueryColumn[] {
+    return this.current = cloneHalResourceCollection<QueryColumn>(query.columns);
   }
 
   public hasChanged(query:QueryResource) {
@@ -86,7 +85,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
    * Retrieve the QueryColumn objects for the selected columns
    */
   public getColumns():any[] {
-    return (this.currentState && this.currentState.getColumns()) || [];
+    return this.state.getValueOr([]);
   }
 
   /**
@@ -150,11 +149,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
    * Update the selected columns to a new set of columns.
    */
   public setColumns(columns:QueryColumn[]) {
-    let currentState = this.currentState;
-
-    currentState.current = columns;
-
-    this.state.putValue(currentState);
+    this.current = columns;
   }
 
   public setColumnsById(columnIds:string[]) {
@@ -231,11 +226,6 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
       columns.splice(index, 1);
       this.setColumns(columns);
     }
-  }
-
-  // only exists to cast the state
-  protected get currentState():WorkPackageTableColumns {
-    return this.state.value as WorkPackageTableColumns;
   }
 
   // Get the available state

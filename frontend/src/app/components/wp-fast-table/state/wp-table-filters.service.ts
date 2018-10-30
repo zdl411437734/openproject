@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
+import {WorkPackageQueryStateService} from './wp-table-base.service';
 import {Injectable} from '@angular/core';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
@@ -36,20 +36,48 @@ import {WorkPackageTableFilters} from '../wp-table-filters';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {InputState} from 'reactivestates';
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
+import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
+import {QueryFilterInstanceSchemaResource} from "core-app/modules/hal/resources/query-filter-instance-schema-resource";
+import {States} from "core-components/states.service";
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 @Injectable()
-export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<WorkPackageTableFilters> implements WorkPackageQueryStateService {
+export class WorkPackageTableFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {
 
-  constructor(readonly tableState:TableState) {
+  constructor(protected readonly states:States,
+              protected readonly tableState:TableState) {
     super(tableState);
   }
 
-  public get state():InputState<WorkPackageTableFilters> {
+  public get state():InputState<QueryFilterInstanceResource[]> {
     return this.tableState.filters;
   }
 
-  public valueFromQuery(query:QueryResource):WorkPackageTableFilters|undefined {
-    return undefined;
+  public get availableState():InputState<QueryFilterInstanceSchemaResource[]> {
+    return this.states.query.available.filters;
+  }
+
+  protected get availableSchemas():QueryFilterInstanceSchemaResource[] {
+    return this.availableState.getValueOr([]);
+  }
+
+  /**
+   * Add a filter instantiation from the set of available filter schemas
+   *
+   * @param filter
+   */
+  public add(filter:QueryFilterResource) {
+    let schema = _.find(this.availableSchemas, schema => (schema.filter.allowedValues as HalResource)[0].href === filter.href)!;
+    let newFilter = schema.getFilter();
+
+    this.state.doModify(filters => filters.concat([newFilter]);
+
+    return newFilter;
+  }
+
+  public remove(filter:QueryFilterInstanceResource) {
+    let index = this.current.indexOf(filter);
+    this.state.doModify(filters => filters.splice(index, 1));
   }
 
   public initializeFilters(query:QueryResource, schema:QuerySchemaResource) {
@@ -69,6 +97,10 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
       comparer(query.filters),
       comparer(this.current)
     );
+  }
+
+  public valueFromQuery(query:QueryResource) {
+    return undefined;
   }
 
   public applyToQuery(query:QueryResource) {
