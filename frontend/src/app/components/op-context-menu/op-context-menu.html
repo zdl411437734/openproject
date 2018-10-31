@@ -5,20 +5,36 @@
       role="menu"
       [ngClass]="{'-empty': items.length === 0 }">
     <ng-container *ngFor="let item of items">
-      <li *ngIf="item.divider && !item.hidden" class="dropdown-divider"></li>
-      <li *ngIf="!item.divider && !item.hidden">
-        <a class="menu-item {{ item.class }}"
-           tabindex="0"
-           [ngClass]="{ 'inactive': item.disabled }"
-           [attr.href]="item.href || ''"
-           [attr.aria-disabled]="item.disabled"
-           [attr.aria-label]="item.ariaLabel || item.linkText"
-           (accessibleClick)="handleClick(item, $event)"
-           [accessibleClickStopEvent]="false">
-          <op-icon *ngIf="item.icon" icon-classes="icon-action-menu {{ item.icon }}"> </op-icon>
-          <span [textContent]="item.linkText"></span>
-        </a>
-      </li>
+      <ng-container *ngIf="!item.hidden" [ngSwitch]="item.type">
+        <li *ngSwitchCase="'divider'" class="dropdown-divider {{item.liClass || ''}}"></li>
+        <li *ngSwitchCase="'input'" class="dropdown-input {{item.liClass || '' }}">
+          <span class="menu-item">
+            <op-icon icon-classes="icon-action-menu icon-search"> </op-icon>
+            <input class="drop-down--input"
+                   [placeholder]="item.placeholder"
+                   [disabled]="item.disabled"
+                   [attr.aria-disabled]="item.disabled"
+                   [attr.aria-label]="item.ariaLabel || item.linkText"
+                   (change)="item.onChange($event)"
+                   (keypress)="handleKeypress(item, $event)"
+                   tabindex="0"
+                   type="text" />
+            </span>
+        </li>
+        <li *ngSwitchCase="'link'" [ngClass]="item.liClass">
+          <a class="menu-item {{ item.class }}"
+            tabindex="0"
+            [ngClass]="{ 'inactive': item.disabled }"
+            [attr.href]="item.href || ''"
+            [attr.aria-disabled]="item.disabled"
+            [attr.aria-label]="item.ariaLabel || item.linkText"
+            (accessibleClick)="handleClick(item, $event)"
+            [accessibleClickStopEvent]="false">
+            <op-icon *ngIf="item.icon" icon-classes="icon-action-menu {{ item.icon }}"> </op-icon>
+            <span [textContent]="item.linkText"></span>
+          </a>
+        </li>
+      </ng-container>
     </ng-container>
   </ul>
 </div>

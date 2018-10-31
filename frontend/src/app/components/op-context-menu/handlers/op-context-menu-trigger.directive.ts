@@ -1,14 +1,14 @@
 import {AfterViewInit, Directive, ElementRef, Input} from "@angular/core";
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-menu-handler";
-import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
+import {OpContextMenuEntry} from "core-components/op-context-menu/op-context-menu.types";
 
 @Directive({
   selector: '[opContextMenuTrigger]'
 })
 export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterViewInit {
   protected $element:JQuery;
-  protected items:OpContextMenuItem[] = [];
+  protected items:OpContextMenuEntry[] = [];
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService) {

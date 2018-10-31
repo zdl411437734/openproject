@@ -11,8 +11,9 @@ import {LinkHandling} from "core-app/modules/common/link-handling/link-handling"
 import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-menu-handler";
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {
-  OpContextMenuItem,
-  OpContextMenuLocalsMap
+  OpContextMenuEntry,
+  OpContextMenuLocalsMap,
+  OPContextMenuLinkItem
 } from "core-components/op-context-menu/op-context-menu.types";
 import {PERMITTED_CONTEXT_MENU_ACTIONS} from "core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
@@ -132,9 +133,10 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
     return selectedWorkPackages;
   }
 
-  protected buildItems():OpContextMenuItem[] {
-    let items = this.permittedActions.map((action:WorkPackageAction) => {
+  protected buildItems():OpContextMenuEntry[] {
+    let items:OPContextMenuLinkItem[] = this.permittedActions.map((action:WorkPackageAction) => {
       return {
+        type: 'link',
         class: undefined as string|undefined,
         disabled: false,
         linkText: action.text,
@@ -145,15 +147,16 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
             return false;
           }
 
-          this.triggerContextMenuAction(action)
+          this.triggerContextMenuAction(action);
           return true;
         }
-      };
+      } as OPContextMenuLinkItem;
     });
 
     if (!this.workPackage.isNew) {
       items.unshift(
         {
+          type: 'link',
           disabled: false,
           icon: 'icon-view-split',
           class: 'detailsViewMenuItem',
@@ -172,6 +175,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
           }
         },
         {
+          type: 'link',
           disabled: false,
           icon: 'icon-view-fullscreen',
           class: 'openFullScreenView',

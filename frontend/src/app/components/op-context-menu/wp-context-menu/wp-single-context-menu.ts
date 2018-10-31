@@ -8,7 +8,7 @@ import {HookService} from 'core-app/modules/plugins/hook-service';
 import {WpDestroyModal} from 'core-components/modals/wp-destroy-modal/wp-destroy.modal';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
-import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
+import {OpContextMenuEntry, OPContextMenuLinkItem} from 'core-components/op-context-menu/op-context-menu.types';
 import {PERMITTED_CONTEXT_MENU_ACTIONS} from 'core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WorkPackageAuthorization} from 'core-components/work-packages/work-package-authorization.service';
@@ -93,12 +93,13 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     return authorization.permittedActionsWithLinks(actions);
   }
 
-  protected buildItems(permittedActions:WorkPackageAction[]):OpContextMenuItem[] {
+  protected buildItems(permittedActions:WorkPackageAction[]):OpContextMenuEntry[] {
     const configureFormLink = this.workPackage.configureForm;
 
     this.items = permittedActions.map((action:WorkPackageAction) => {
       const key = action.key;
       return {
+        type: 'link',
         disabled: false,
         linkText: I18n.t('js.button_' + key),
         href: action.link,
@@ -111,12 +112,13 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
           this.triggerContextMenuAction(action, key);
           return true;
         }
-      };
+      } as OPContextMenuLinkItem;
     });
 
     if (configureFormLink) {
       this.items.push(
         {
+          type: 'link',
           href: configureFormLink.href,
           icon: 'icon-settings3',
           linkText: configureFormLink.name,

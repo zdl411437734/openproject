@@ -1,7 +1,7 @@
 import {Component, Inject} from "@angular/core";
 import {
-  OpContextMenuItem,
-  OpContextMenuLocalsMap, OpContextMenuLocalsToken
+  OpContextMenuEntry,
+  OpContextMenuLocalsMap, OpContextMenuLocalsToken, OPContextMenuLinkItem, OPContextMenuDividerItem, OPContextMenuInputItem
 } from "core-components/op-context-menu/op-context-menu.types";
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 
@@ -9,7 +9,7 @@ import {OPContextMenuService} from "core-components/op-context-menu/op-context-m
   templateUrl: './op-context-menu.html'
 })
 export class OPContextMenuComponent {
-  public items:OpContextMenuItem[];
+  public items:OpContextMenuEntry[];
   public service:OPContextMenuService;
 
   constructor(@Inject(OpContextMenuLocalsToken) public locals:OpContextMenuLocalsMap) {
@@ -17,8 +17,23 @@ export class OPContextMenuComponent {
     this.service = this.locals.service;
   }
 
-  public handleClick(item:OpContextMenuItem, $event:JQueryEventObject) {
-    if (item.disabled || item.divider) {
+  public handleKeypress(item:OPContextMenuLinkItem|OPContextMenuInputItem, $event:KeyboardEvent) {
+    if (item.disabled || !item.onKeypress) {
+      return true;
+    }
+
+    if (item.onKeypress($event)) {
+      this.locals.service.close();
+      $event.preventDefault();
+      $event.stopPropagation();
+      return false;
+    }
+
+    return true;
+  }
+
+  public handleClick(item:OPContextMenuLinkItem|OPContextMenuDividerItem, $event:JQueryEventObject) {
+    if (item.disabled || item.type === 'divider') {
       return false;
     }
 

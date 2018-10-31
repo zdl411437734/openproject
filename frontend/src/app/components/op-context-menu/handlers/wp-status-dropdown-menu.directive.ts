@@ -38,6 +38,7 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {OPContextMenuLinkItem} from '../op-context-menu.types';
 
 @Directive({
   selector: '[wpStatusDropdown]'
@@ -87,6 +88,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   private buildItems(statuses:CollectionResource<HalResource>) {
     this.items = statuses.map((status:HalResource) => {
       return {
+        type: 'link',
         disabled: false,
         linkText: status.name,
         class: Highlighting.dotClass('status', status.getId()),
@@ -94,7 +96,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
           this.updateStatus(status);
           return true;
         }
-      };
+      } as OPContextMenuLinkItem;
     });
   }
 }

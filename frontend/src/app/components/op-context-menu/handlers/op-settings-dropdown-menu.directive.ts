@@ -160,6 +160,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
     this.items = [
       {
         // Configuration modal
+        type: 'link',
         disabled: false,
         linkText: this.I18n.t('js.toolbar.settings.configure_view'),
         icon: 'icon-settings',
@@ -172,6 +173,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       },
       {
         // Rename query shortcut
+        type: 'link',
         disabled: !this.query.id || this.authorisationService.cannot('query', 'updateImmediately'),
         linkText: this.I18n.t('js.toolbar.settings.page_settings'),
         icon: 'icon-edit',
@@ -186,6 +188,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       },
       {
         // Query save modal
+        type: 'link',
         disabled: this.authorisationService.cannot('query', 'updateImmediately'),
         linkText: this.I18n.t('js.toolbar.settings.save'),
         icon: 'icon-save',
@@ -202,6 +205,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       },
       {
         // Query save as modal
+        type: 'link',
         disabled: this.form ? !this.form.$links.create_new : this.authorisationService.cannot('query', 'updateImmediately'),
         linkText: this.I18n.t('js.toolbar.settings.save_as'),
         icon: 'icon-save',
@@ -215,6 +219,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       },
       {
         // Delete query
+        type: 'link',
         disabled: this.authorisationService.cannot('query', 'delete'),
         linkText: this.I18n.t('js.toolbar.settings.delete'),
         icon: 'icon-delete',
@@ -229,6 +234,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       },
       {
         // Export query
+        type: 'link',
         disabled: this.authorisationService.cannot('work_packages', 'representations'),
         linkText: this.I18n.t('js.toolbar.settings.export'),
         icon: 'icon-export',
@@ -242,6 +248,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       },
       {
         // Sharing modal
+        type: 'link',
         disabled: this.authorisationService.cannot('query', 'unstar') && this.authorisationService.cannot('query', 'star'),
         linkText: this.I18n.t('js.toolbar.settings.visibility_settings'),
         icon: 'icon-watched',
@@ -254,11 +261,12 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         }
       },
       {
-        divider: true,
+        type: 'divider',
         hidden: !(this.query.results.customFields && this.form.configureForm)
       },
       {
         // Settings modal
+        type: 'link',
         hidden: !this.query.results.customFields,
         href: this.query.results.customFields && this.query.results.customFields.href,
         linkText: this.query.results.customFields && this.query.results.customFields.name,

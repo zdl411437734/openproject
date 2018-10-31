@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
+import {OpContextMenuEntry, OPContextMenuLinkItem} from 'core-components/op-context-menu/op-context-menu.types';
 import {WorkPackageCreateService} from '../../wp-new/wp-create.service';
 import {StateService} from '@uirouter/core';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
@@ -79,7 +79,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
     });
   }
 
-  public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuItem[] } {
+  public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuEntry[] } {
     return {
       items: this.items,
       contextMenuId: 'types-context-menu'
@@ -89,6 +89,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
   private buildItems(types:TypeResource[]) {
     this.items = types.map((type:TypeResource) => {
       return {
+        type: 'link',
         disabled: false,
         linkText: type.name,
         href: this.$state.href(this.stateName, { type: type.id }),
@@ -102,7 +103,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
           this.$state.go(this.stateName, { type: type.id });
           return true;
         }
-      };
+      } as OPContextMenuLinkItem;
     });
   }
 }

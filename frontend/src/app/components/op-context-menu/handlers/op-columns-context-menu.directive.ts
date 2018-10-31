@@ -31,7 +31,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
-import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
+import {OpContextMenuEntry} from 'core-components/op-context-menu/op-context-menu.types';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
@@ -40,6 +40,7 @@ import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 
 @Directive({
   selector: '[opColumnsContextMenu]'
@@ -101,7 +102,31 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
 
     this.items = [
       {
+        type: 'input',
+        placeholder: 'Quick filter',
+        onChange: ($event:Event) => {
+          const filterSubjects = _.debounce((input) => {
+            const subjects = jQuery(`.wp-table--cell-td.subject`);
+            subjects.closest('.wp-table--row').hide();
+  
+            subjects
+              .filter(`:contains('${input.value}')`)
+              .closest('.wp-table--row')
+              .show();
+  
+            console.log(input.value);
+          }, 250);
+
+          const input = $event.target as HTMLInputElement;
+          filterSubjects(input);
+        },
+        onKeypress: ($event:KeyboardEvent) => {
+          return ($event.which === keyCodes.ENTER);
+        }
+      },
+      {
         // Sort ascending
+        type: 'link',
         hidden: !this.wpTableSortBy.isSortable(c),
         linkText: this.I18n.t('js.work_packages.query.sort_descending'),
         icon: 'icon-sort-descending',
@@ -112,6 +137,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       },
       {
         // Sort descending
+        type: 'link',
         hidden: !this.wpTableSortBy.isSortable(c),
         linkText: this.I18n.t('js.work_packages.query.sort_ascending'),
         icon: 'icon-sort-ascending',
@@ -122,6 +148,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       },
       {
         // Group by
+        type: 'link',
         hidden: !this.wpTableGroupBy.isGroupable(c) || this.wpTableGroupBy.isCurrentlyGroupedBy(c),
         linkText: this.I18n.t('js.work_packages.query.group'),
         icon: 'icon-group-by',
@@ -132,6 +159,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       },
       {
         // Move left
+        type: 'link',
         hidden: this.wpTableColumns.isFirst(c),
         linkText: this.I18n.t('js.work_packages.query.move_column_left'),
         icon: 'icon-column-left',
@@ -142,6 +170,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       },
       {
         // Move right
+        type: 'link',
         hidden: this.wpTableColumns.isLast(c),
         linkText: this.I18n.t('js.work_packages.query.move_column_right'),
         icon: 'icon-column-right',
@@ -152,6 +181,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       },
       {
         // Hide column
+        type: 'link',
         linkText: this.I18n.t('js.work_packages.query.hide_column'),
         icon: 'icon-delete',
         onClick: () => {
@@ -169,6 +199,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       },
       {
         // Insert columns
+        type: 'link',
         linkText: this.I18n.t('js.work_packages.query.insert_columns'),
         icon: 'icon-columns',
         onClick: () => {

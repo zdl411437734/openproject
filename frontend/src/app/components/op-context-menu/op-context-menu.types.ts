@@ -3,19 +3,39 @@ import {InjectionToken} from "@angular/core";
 export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');
 
 export interface OpContextMenuLocalsMap {
-  items:OpContextMenuItem[];
+  items:OpContextMenuEntry[];
   contextMenuId?:string;
   [key:string]:any;
 };
 
-export interface OpContextMenuItem {
+export type OpContextMenuEntry =
+  OPContextMenuDividerItem | OPContextMenuLinkItem | OPContextMenuInputItem;
+
+export interface OPContextMenuItem {
   disabled?:boolean;
   hidden?:boolean;
+  liClass?:string;
+  class?:string;
+}
+
+export interface OPContextMenuDividerItem extends OPContextMenuItem {
+  type:'divider';
+}
+
+export interface OPContextMenuInputItem extends OPContextMenuItem {
+  type:'input';
+  ariaLabel?:string;
+  placeholder:string;
+  onChange:($event:Event) => void;
+  onKeypress?:($event:KeyboardEvent) => boolean;
+}
+
+export interface OPContextMenuLinkItem extends OPContextMenuItem {
+  type:'link';
   icon?:string;
   href?:string;
-  class?:string;
   ariaLabel?:string;
   linkText?:string;
-  divider?:boolean;
-  onClick?:($event:JQueryEventObject) => boolean;
+  onClick?:($event:Event) => boolean;
+  onKeypress?:($event:KeyboardEvent) => boolean;
 }
