@@ -42,7 +42,7 @@ class EnterpriseToken < ActiveRecord::Base
     end
 
     def set_current_token
-      token = EnterpriseToken.order('created_at DESC').first
+      token = EnterpriseToken.order(Arel.sql('created_at DESC')).first
 
       if token && token.token_object
         token

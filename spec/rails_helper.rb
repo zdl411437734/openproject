@@ -69,7 +69,7 @@ RSpec.configure do |config|
 
   # We're using DatabaseCleaner, so avoid test wrapping in transctions
   # cf., spec/support/database_cleaner
-  config.use_transactional_fixtures = false
+  config.use_transactional_fixtures = true
 
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
