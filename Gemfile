@@ -202,29 +202,28 @@ group :test do
   gem 'cucumber-rails', '~> 1.6.0', require: false
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
-  # not possible to upgrade to 3.6+ until rails is 5.1+
-  gem 'rspec', '~> 3.7.0'
+  gem 'rspec', '~> 3.8.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.7.2', group: :development
-  gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
+  gem 'rspec-rails', '~> 3.8.1', group: :development
+  gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.5.6'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
-  gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
+  # gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
 
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.0.0'
-  gem 'capybara-screenshot', '~> 1.0.17'
+  gem 'capybara', '~> 3.11.1'
+  gem 'capybara-screenshot', '~> 1.0.22'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'chromedriver-helper', '~> 1.2.0'
   gem 'selenium-webdriver', '~> 3.11'
 
-  gem 'fuubar', '~> 2.3.1'
+  gem 'fuubar', '~> 2.3.2'
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.1.0', require: false
 
