@@ -220,8 +220,8 @@ group :test do
   gem 'capybara', '~> 3.11.1'
   gem 'capybara-screenshot', '~> 1.0.22'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
-  gem 'chromedriver-helper', '~> 1.2.0'
-  gem 'selenium-webdriver', '~> 3.11'
+  gem 'chromedriver-helper', '~> 2.1.0'
+  gem 'selenium-webdriver', '~> 3.14'
 
   gem 'fuubar', '~> 2.3.2'
   gem 'timecop', '~> 0.9.0'
@@ -250,6 +250,7 @@ end
 group :development, :test do
   gem 'thin', '~> 1.7.2'
   gem 'ruby-prof', require: false
+  gem 'puma', '~> 3.11.3'
 
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
