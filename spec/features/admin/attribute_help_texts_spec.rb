@@ -27,9 +27,10 @@
 #++
 
 require 'spec_helper'
+require 'fixtures/users/admin_user'
 
 describe 'Attribute help texts' do
-  let(:admin) { FactoryBot.create(:admin) }
+  include_context 'shared fixture: admin + admin_password'
 
   let(:instance) { AttributeHelpText.last }
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }

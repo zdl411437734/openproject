@@ -28,10 +28,12 @@
 
 require 'spec_helper'
 require 'work_package'
+require 'fixtures/users/admin_user'
 
 describe Users::MembershipsController, type: :controller do
+  include_context 'shared fixture: admin + admin_password'
+
   let(:user) { FactoryBot.create(:user) }
-  let(:admin) { FactoryBot.create(:admin) }
   let(:anonymous) { FactoryBot.create(:anonymous) }
 
   describe 'update memberships' do

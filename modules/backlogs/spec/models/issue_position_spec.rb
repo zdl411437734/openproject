@@ -34,6 +34,7 @@
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'fixtures/users/admin_user'
 
 describe WorkPackage, type: :model do
   describe 'Story positions' do
@@ -261,7 +262,7 @@ describe WorkPackage, type: :model do
                            project_id: project_wo_backlogs.id,
                            name: 'Go-Live')
       }
-      let(:admin) { FactoryBot.create(:admin) }
+      include_context 'shared fixture: admin + admin_password'
 
       def move_to_project(work_package, project)
         service = WorkPackages::MoveService.new(work_package, admin)

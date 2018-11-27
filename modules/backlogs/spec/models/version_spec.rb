@@ -34,6 +34,7 @@
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'fixtures/users/admin_user'
 
 describe Version, type: :model do
   it { is_expected.to have_many :version_settings }
@@ -61,7 +62,7 @@ describe Version, type: :model do
 
     let(:version) { FactoryBot.create(:version, project_id: project.id, name: 'Version') }
 
-    let(:admin) { FactoryBot.create(:admin) }
+    include_context 'shared fixture: admin + admin_password'
 
     def move_to_project(work_package, project)
       service = WorkPackages::MoveService.new(work_package, admin)

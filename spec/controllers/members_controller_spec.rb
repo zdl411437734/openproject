@@ -27,9 +27,10 @@
 #++
 
 require 'spec_helper'
+require 'fixtures/users/admin_user'
 
 describe MembersController, type: :controller do
-  let(:admin) { FactoryBot.create(:admin) }
+  include_context 'shared fixture: admin + admin_password'
   let(:user) { FactoryBot.create(:user) }
   let(:project) { FactoryBot.create(:project, identifier: 'pet_project') }
   let(:role) { FactoryBot.create(:role) }
@@ -44,7 +45,7 @@ describe MembersController, type: :controller do
   end
 
   describe 'create' do
-    let(:admin) { FactoryBot.create(:admin) }
+    include_context 'shared fixture: admin + admin_password'
     let(:project_2) { FactoryBot.create(:project) }
 
     before do
@@ -75,7 +76,7 @@ describe MembersController, type: :controller do
   end
 
   describe 'update' do
-    let(:admin) { FactoryBot.create(:admin) }
+    include_context 'shared fixture: admin + admin_password'
     let(:project_2) { FactoryBot.create(:project) }
     let(:role_1) { FactoryBot.create(:role) }
     let(:role_2) { FactoryBot.create(:role) }

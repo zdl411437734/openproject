@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+require 'fixtures/users/admin_user'
 
 describe AccountController, type: :controller do
   after do
@@ -80,7 +81,7 @@ describe AccountController, type: :controller do
   end
 
   context 'POST #login' do
-    let(:admin) { FactoryBot.create(:admin) }
+    include_context 'shared fixture: admin + admin_password'
 
     describe 'wrong password' do
       it 'redirects back to login' do
@@ -229,7 +230,7 @@ describe AccountController, type: :controller do
     end
 
     context 'GET #logout' do
-      let(:admin) { FactoryBot.create(:admin) }
+      include_context 'shared fixture: admin + admin_password'
 
       it 'calls reset_session' do
         expect(@controller).to receive(:reset_session).once

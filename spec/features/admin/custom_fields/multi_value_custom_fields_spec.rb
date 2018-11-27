@@ -27,9 +27,10 @@
 #++
 
 require 'spec_helper'
+require 'fixtures/users/admin_user'
 
 describe 'Multi-value custom fields creation', type: :feature, js: true do
-  let(:admin) { FactoryBot.create(:admin) }
+  include_context 'shared fixture: admin + admin_password'
 
   def drag_and_drop(handle, to)
     scroll_to_element(handle)

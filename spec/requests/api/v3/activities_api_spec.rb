@@ -28,12 +28,14 @@
 
 require 'spec_helper'
 require 'rack/test'
+require 'fixtures/users/admin_user'
 
 describe API::V3::Activities::ActivitiesAPI, type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:admin) { FactoryBot.create(:admin) }
+  include_context 'shared fixture: admin + admin_password'
+
   let(:comment) { 'This is a test comment!' }
 
   shared_examples_for 'safeguarded API' do

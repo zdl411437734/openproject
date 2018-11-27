@@ -27,9 +27,10 @@
 #++
 
 require 'spec_helper'
+require 'fixtures/users/admin_user'
 
 describe 'WorkPackage-Visibility', type: :model do
-  let(:admin) { FactoryBot.create(:admin) }
+  include_context 'shared fixture: admin + admin_password'
   let(:anonymous) { FactoryBot.create(:anonymous) }
   let(:user) { FactoryBot.create(:user) }
   let(:public_project) { FactoryBot.create(:project, is_public: true) }

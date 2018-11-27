@@ -29,10 +29,11 @@
 #++
 
 require 'spec_helper'
+require 'fixtures/users/admin_user'
 
 describe ::Type, type: :model do
   let(:type) { FactoryBot.build(:type) }
-  let(:admin) { FactoryBot.create(:admin) }
+  include_context 'shared fixture: admin + admin_password'
 
   before do
     # Clear up the request store cache for all_work_package_attributes

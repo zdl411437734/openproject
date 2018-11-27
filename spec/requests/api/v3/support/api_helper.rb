@@ -26,13 +26,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'fixtures/users/admin_user'
+
 shared_examples_for 'safeguarded API' do
   it { expect(last_response.status).to eq(404) }
 end
 
 shared_examples_for 'valid activity request' do
+  include_context 'shared fixture: admin + admin_password'
   let(:status_code) { 200 }
-  let(:admin) { FactoryBot.create(:admin) }
 
   before do
     allow(User).to receive(:current).and_return(admin)
@@ -50,7 +52,8 @@ shared_examples_for 'valid activity request' do
 end
 
 shared_examples_for 'invalid activity request' do
-  let(:admin) { FactoryBot.create(:admin) }
+  include_context 'shared fixture: admin + admin_password'
+
   before do
     allow(User).to receive(:current).and_return(admin)
   end

@@ -28,15 +28,12 @@
 
 require 'spec_helper'
 require 'work_package'
+require 'fixtures/users/admin_user'
+require 'fixtures/users/anonymous_user'
 
 describe UsersController, type: :controller do
-  before do
-    User.delete_all
-  end
-
-  after do
-    User.current = nil
-  end
+  include_context 'shared anonymous user'
+  include_context 'shared fixture: admin + admin_password'
 
   let(:user_password) {'bob!' * 4}
   let(:user) do
@@ -46,8 +43,6 @@ describe UsersController, type: :controller do
                        password_confirmation: user_password,
                        )
   end
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:anonymous) { FactoryBot.create(:anonymous) }
 
   describe 'GET new' do
     context "with user limit reached" do
@@ -192,12 +187,10 @@ describe UsersController, type: :controller do
     end
 
     context 'with admin rights' do
-      let(:admin_user) { FactoryBot.create :admin }
-
       before do
         expect(ActionMailer::Base.deliveries).to be_empty
 
-        as_logged_in_user admin_user do
+        as_logged_in_user admin do
           post :resend_invitation, params: { id: invited_user.id }
         end
       end
@@ -287,7 +280,7 @@ describe UsersController, type: :controller do
       describe "WHEN the current user is the admin
                 WHEN the given password does not match
                 WHEN the setting users_deletable_by_admins is set to true" do
-        let(:admin) { FactoryBot.create(:admin) }
+        include_context 'shared fixture: admin + admin_password'
 
         before do
           disable_flash_sweep
@@ -309,13 +302,6 @@ describe UsersController, type: :controller do
                 WHEN the given password does match
                 WHEN the setting users_deletable_by_admins is set to true" do
 
-        let(:admin_password) {'admin!' * 4}
-        let(:admin) do
-          FactoryBot.create(:admin,
-                             password: admin_password,
-                             password_confirmation: admin_password)
-        end
-
         before do
           disable_flash_sweep
           allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
@@ -331,7 +317,7 @@ describe UsersController, type: :controller do
 
       describe "WHEN the current user is the admin
                 WHEN the setting users_deletable_by_admins is set to false" do
-        let(:admin) { FactoryBot.create(:admin) }
+        include_context 'shared fixture: admin + admin_password'
 
         before do
           disable_flash_sweep
