@@ -27,10 +27,9 @@
 #++
 
 require 'spec_helper'
-require 'fixtures/users/admin_user'
 
 feature 'Types', type: :feature do
-  include_context 'shared fixture: admin + admin_password'
+  using_shared_fixtures :admin
 
   let!(:existing_role) { FactoryBot.create(:role) }
   let!(:existing_workflow) { FactoryBot.create(:workflow_with_default_status, role: existing_role, type: existing_type) }

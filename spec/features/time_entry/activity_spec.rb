@@ -27,10 +27,9 @@
 #++
 
 require 'spec_helper'
-require 'fixtures/users/admin_user'
 
 describe 'Time entry activity', type: :feature do
-  include_context 'shared fixture: admin + admin_password'
+  using_shared_fixtures :admin
 
   before do
     login_as(admin)

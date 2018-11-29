@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Member < ActiveRecord::Base
+class Member < ApplicationRecord
   belongs_to :user
   belongs_to :principal, foreign_key: 'user_id'
   has_many :member_roles, dependent: :destroy, autosave: true

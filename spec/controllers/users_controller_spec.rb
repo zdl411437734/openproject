@@ -28,12 +28,9 @@
 
 require 'spec_helper'
 require 'work_package'
-require 'fixtures/users/admin_user'
-require 'fixtures/users/anonymous_user'
 
 describe UsersController, type: :controller do
-  include_context 'shared anonymous user'
-  include_context 'shared fixture: admin + admin_password'
+  using_shared_fixtures :admin, :anonymous
 
   let(:user_password) {'bob!' * 4}
   let(:user) do
@@ -280,7 +277,7 @@ describe UsersController, type: :controller do
       describe "WHEN the current user is the admin
                 WHEN the given password does not match
                 WHEN the setting users_deletable_by_admins is set to true" do
-        include_context 'shared fixture: admin + admin_password'
+        using_shared_fixtures :admin
 
         before do
           disable_flash_sweep
@@ -307,7 +304,7 @@ describe UsersController, type: :controller do
           allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
 
           as_logged_in_user admin do
-            post :destroy, params: base_params.merge(:'_password_confirmation' => admin_password)
+            post :destroy, params: base_params.merge(:'_password_confirmation' => 'adminADMIN!')
           end
         end
 
@@ -317,7 +314,7 @@ describe UsersController, type: :controller do
 
       describe "WHEN the current user is the admin
                 WHEN the setting users_deletable_by_admins is set to false" do
-        include_context 'shared fixture: admin + admin_password'
+        using_shared_fixtures :admin
 
         before do
           disable_flash_sweep

@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 describe 'random password generation', type: :feature do
-  let(:admin) { FactoryBot.create :admin }
+  using_shared_fixtures :admin
+
   let(:auth_source) { FactoryBot.build :dummy_auth_source }
   let(:old_password) { 'old_Password!123' }
   let(:new_password) { 'new_Password!123' }

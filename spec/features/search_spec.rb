@@ -30,8 +30,10 @@ require 'spec_helper'
 
 describe 'Search', type: :feature do
   describe 'pagination' do
+    using_shared_fixtures :admin
+    let(:user) { admin }
+
     let(:project) { FactoryBot.create :project }
-    let(:user) { FactoryBot.create :admin }
 
     let!(:work_packages) do
       (1..23).map do |n|

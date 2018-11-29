@@ -24,7 +24,7 @@ require_dependency 'wiki_page'
 # Because of the WikiDiff class defined therein
 require 'wiki_page'
 
-class MeetingContent < ActiveRecord::Base
+class MeetingContent < ApplicationRecord
   belongs_to :meeting
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 

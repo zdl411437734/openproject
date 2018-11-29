@@ -28,13 +28,12 @@
 
 require 'spec_helper'
 require 'rack/test'
-require 'fixtures/users/admin_user'
 
 describe API::V3::Activities::ActivitiesAPI, type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  include_context 'shared fixture: admin + admin_password'
+  using_shared_fixtures :admin
 
   let(:comment) { 'This is a test comment!' }
 

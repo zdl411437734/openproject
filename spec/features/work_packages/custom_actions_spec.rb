@@ -27,10 +27,9 @@
 #++
 
 require 'spec_helper'
-require 'fixtures/users/admin_user'
 
 describe 'Custom actions', type: :feature, js: true do
-  include_context 'shared fixture: admin + admin_password'
+  using_shared_fixtures :admin
 
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }

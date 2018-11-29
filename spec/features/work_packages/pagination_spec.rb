@@ -27,10 +27,9 @@
 #++
 
 require 'spec_helper'
-require 'fixtures/users/admin_user'
 
 RSpec.feature 'Work package pagination', js: true do
-  include_context 'shared fixture: admin + admin_password'
+  using_shared_fixtures :admin
 
   let(:project) {
     FactoryBot.create(:project, name: 'project1', identifier: 'project1')

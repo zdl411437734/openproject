@@ -27,12 +27,11 @@
 #++
 
 require 'spec_helper'
-require 'fixtures/users/admin_user'
 
 describe 'Enterprise token', type: :feature do
   include Redmine::I18n
 
-  include_context 'shared fixture: admin + admin_password'
+  using_shared_fixtures :admin
   let(:token_object) do
     token = OpenProject::Token.new
     token.subscriber = 'Foobar'

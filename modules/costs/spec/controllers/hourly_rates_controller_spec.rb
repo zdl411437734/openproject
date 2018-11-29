@@ -18,10 +18,9 @@
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
-require 'fixtures/users/admin_user'
 
 describe HourlyRatesController do
-  include_context 'shared fixture: admin + admin_password'
+  using_shared_fixtures :admin
 
   let(:user) { FactoryBot.create(:user) }
   let(:default_rate) { FactoryBot.create(:default_hourly_rate, user: user) }

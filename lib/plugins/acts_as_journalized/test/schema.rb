@@ -56,7 +56,7 @@ CreateSchema.suppress_messages do
   CreateSchema.migrate(:up)
 end
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   journaled
 
   def name

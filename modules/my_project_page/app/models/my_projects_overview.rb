@@ -19,7 +19,7 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-class MyProjectsOverview < ActiveRecord::Base
+class MyProjectsOverview < ApplicationRecord
   after_initialize :initialize_default_values
 
   DEFAULTS = {

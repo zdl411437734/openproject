@@ -30,7 +30,7 @@
 
 require 'digest/md5'
 
-class Attachment < ActiveRecord::Base
+class Attachment < ApplicationRecord
   ALLOWED_IMAGE_TYPES = %w[image/gif image/jpeg image/png image/tiff image/bmp].freeze
 
   belongs_to :container, polymorphic: true
