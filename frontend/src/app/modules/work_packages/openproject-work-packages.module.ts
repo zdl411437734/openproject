@@ -185,6 +185,7 @@ import {WorkPackagesListComponent} from "core-app/modules/work_packages/routing/
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
 import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachments-upload/attachments-upload.component';
+import {BimTabComponent} from 'core-components/wp-single-view-tabs/bim-tab/bim-tab.component';
 
 @NgModule({
   imports: [
@@ -366,6 +367,9 @@ import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachmen
     WorkPackageWatchersTabComponent,
     WorkPackageWatcherEntryComponent,
 
+    // Spike: BIM tab
+    BimTabComponent,
+
     // Relations
     WorkPackageRelationsTabComponent,
     WorkPackageRelationsComponent,
@@ -430,6 +434,7 @@ import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachmen
     WorkPackageActivityTabComponent,
     WorkPackageRelationsTabComponent,
     WorkPackageWatchersTabComponent,
+    BimTabComponent,
 
     // Single view
     WorkPackageOverviewTabComponent,

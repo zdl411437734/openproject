@@ -33,7 +33,8 @@
     ],
     "paths": {
       "core-app/*": ["./app/*"],
-      "core-components/*": ["./app/components/*"]
+      "core-components/*": ["./app/components/*"],
+      "@vendor/*": ["../vendor/*"]
     }
   },
   "compileOnSave": false

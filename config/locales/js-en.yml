@@ -727,6 +727,7 @@ en:
         relations: Relations
         watchers: Watchers
         attachments: Attachments
+        bim: Model viewer
       time_relative:
         days: "days"
         weeks: "weeks"

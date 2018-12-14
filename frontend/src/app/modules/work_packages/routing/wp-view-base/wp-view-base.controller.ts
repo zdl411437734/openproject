@@ -98,7 +98,7 @@ export class WorkPackageViewController implements OnDestroy {
    */
   protected initializeTexts() {
     this.text.tabs = {};
-    ['overview', 'activity', 'relations', 'watchers'].forEach(tab => {
+    ['overview', 'activity', 'relations', 'watchers', 'bim'].forEach(tab => {
       this.text.tabs[tab] = this.I18n.t('js.work_packages.tabs.' + tab);
     });
   }

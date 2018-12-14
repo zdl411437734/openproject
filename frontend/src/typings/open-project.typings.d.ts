@@ -26,6 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+// Accept any untyped module for now.
+declare module '*';
+
 /**
  * API interfaces
  *

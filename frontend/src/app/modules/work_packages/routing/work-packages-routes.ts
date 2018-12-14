@@ -39,6 +39,7 @@ import {WorkPackagesListComponent} from "core-app/modules/work_packages/routing/
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
+import {BimTabComponent} from 'core-components/wp-single-view-tabs/bim-tab/bim-tab.component';
 
 
 
@@ -105,6 +106,11 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     name: 'work-packages.show.watchers',
     url: '/watchers',
     component: WorkPackageWatchersTabComponent
+  },
+  {
+    name: 'work-packages.show.bim',
+    url: '/bim',
+    component: BimTabComponent
   },
   {
     name: 'work-packages.list',
@@ -175,6 +181,11 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     name: 'work-packages.list.details.watchers',
     url: '/watchers',
     component: WorkPackageWatchersTabComponent
+  },
+  {
+    name: 'work-packages.list.details.bim',
+    url: '/bim',
+    component: BimTabComponent
   },
   // Avoid lazy-loading the routes for now
   // {
