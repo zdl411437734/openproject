@@ -61,6 +61,7 @@ import {
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 
 @Component({
   templateUrl: './wp-table.directive.html',
@@ -96,6 +97,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   public text:any;
 
   public rowcount:number;
+
+  public rows:any;
 
   public groupBy:QueryGroupByResource | undefined;
 
@@ -161,6 +164,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
       this.groupBy = groupBy.current;
       this.columns = columns.current;
+      this.rows = results.elements;
       // Total columns = all available columns + id + checkbox
       this.numTableColumns = this.columns.length + 2;
 
@@ -191,6 +195,18 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     controller.workPackageTable = this.workPackageTable;
     new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
     this.cdRef.detectChanges();
+  }
+
+  drop(event:CdkDragDrop<string[]>) {
+    console.warn(event);
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
   }
 
   public openTableConfigurationModal() {
